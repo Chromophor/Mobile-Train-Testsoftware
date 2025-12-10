@@ -7,8 +7,20 @@
               android:layout_height="match_parent">
 
     <Button
+            android:id="@+id/btnInitialize"
+            android:text="Initialize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    <Button
             android:id="@+id/btnSend"
-            android:text="WEICHE 1 LINKS"
+            android:text="WEICHE 05 schalten 1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    <Button
+            android:id="@+id/btnSend1"
+            android:text="WEICHE 05 schalten 2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

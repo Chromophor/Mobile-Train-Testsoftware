@@ -30,8 +30,14 @@ class MainActivity : ComponentActivity() {
     // TCP Port, auf dem die Android App auf ACK wartet
     private val TCP_PORT = 6000
 
+    // eigene IP Adresse
+    //private val IP_SELF = InetAddress.getLocalHost().hostAddress
+
     private lateinit var statusView: TextView
     private lateinit var btnSend: Button
+    private lateinit var btnSend1: Button
+    private lateinit var btnInitialize: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,13 +45,19 @@ class MainActivity : ComponentActivity() {
 
         statusView = findViewById(R.id.statusView)
         btnSend = findViewById(R.id.btnSend)
+        btnSend1 = findViewById(R.id.btnSend1)
+        btnInitialize = findViewById(R.id.btnInitialize)
 
         // TCP Listener starten
         startTcpListener()
 
-        // Button zum Senden eines Commands
+        btnInitialize.setOnClickListener {
+            sendUdpBroadcast("Mobile Testapplication")
+        }
+
+        // Button zum Senden des Befehls "Schalte W05" (Weiche am Ablaufberg)
         btnSend.setOnClickListener {
-            sendUdpBroadcast("WEICHE_1_LINKS")
+            sendUdpBroadcast("1 5 2 1 8 W05")
         }
     }
 
@@ -101,19 +113,4 @@ class MainActivity : ComponentActivity() {
         }.start()
     }
 
-    @Composable
-    fun Greeting(name: String, modifier: Modifier = Modifier) {
-        Text(
-            text = "Hello $name!",
-            modifier = modifier
-        )
-    }
-
-    @Preview(showBackground = true)
-    @Composable
-    fun GreetingPreview() {
-        MobileTestsoftwareTheme {
-            Greeting("Android")
-        }
-    }
 }

@@ -1,5 +1,6 @@
 package com.example.mobiletestsoftware
 
+
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -20,6 +21,8 @@ import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 import java.net.ServerSocket
+import java.net.NetworkInterface
+import java.net.Inet4Address
 
 class MainActivity : ComponentActivity() {
 
@@ -30,8 +33,27 @@ class MainActivity : ComponentActivity() {
     // TCP Port, auf dem die Android App auf ACK wartet
     private val TCP_PORT = 6000
 
-    // eigene IP Adresse
-    //private val IP_SELF = InetAddress.getLocalHost().hostAddress
+
+
+
+
+    // eigene IP Adresse herausfinden
+    fun getLocalIpAddress(): String? {
+        try {
+            val interfaces = NetworkInterface.getNetworkInterfaces()
+            for (intf in interfaces) {
+                val addresses = intf.inetAddresses
+                for (addr in addresses) {
+                    if (!addr.isLoopbackAddress && addr is Inet4Address) {
+                        return addr.hostAddress
+                    }
+                }
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+        return null
+    }
 
     private lateinit var statusView: TextView
     private lateinit var btnSend: Button
@@ -50,9 +72,12 @@ class MainActivity : ComponentActivity() {
 
         // TCP Listener starten
         startTcpListener()
+        //IP Adresse bestimmen
+        val myIp = getLocalIpAddress()
 
+        //wir senden eigene IP zum Herstellen einer TCP Verbindung zu den RaspPis
         btnInitialize.setOnClickListener {
-            sendUdpBroadcast("Mobile Testapplication")
+            sendUdpBroadcast("mobileTestApplication:" + myIp)
         }
 
         // Button zum Senden des Befehls "Schalte W05" (Weiche am Ablaufberg) (W05-1 wegen komischer Implementierung)

@@ -55,9 +55,14 @@ class MainActivity : ComponentActivity() {
             sendUdpBroadcast("Mobile Testapplication")
         }
 
-        // Button zum Senden des Befehls "Schalte W05" (Weiche am Ablaufberg)
+        // Button zum Senden des Befehls "Schalte W05" (Weiche am Ablaufberg) (W05-1 wegen komischer Implementierung)
         btnSend.setOnClickListener {
-            sendUdpBroadcast("1 5 2 1 8 W05")
+            sendUdpBroadcast("W0041")
+        }
+
+        // Button zum Senden des Befehls "Schalte W05" (Weiche am Ablaufberg) in die andere Richtung
+        btnSend1.setOnClickListener {
+            sendUdpBroadcast("W0040")
         }
     }
 

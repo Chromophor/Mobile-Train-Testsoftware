@@ -33,28 +33,6 @@ class MainActivity : ComponentActivity() {
     // TCP Port, auf dem die Android App auf ACK wartet
     private val TCP_PORT = 6000
 
-
-
-
-
-    // eigene IP Adresse herausfinden
-    fun getLocalIpAddress(): String? {
-        try {
-            val interfaces = NetworkInterface.getNetworkInterfaces()
-            for (intf in interfaces) {
-                val addresses = intf.inetAddresses
-                for (addr in addresses) {
-                    if (!addr.isLoopbackAddress && addr is Inet4Address) {
-                        return addr.hostAddress
-                    }
-                }
-            }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-        }
-        return null
-    }
-
     private lateinit var statusView: TextView
     private lateinit var btnSend: Button
     private lateinit var btnSend1: Button
@@ -141,6 +119,24 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }.start()
+    }
+
+    // eigene IP Adresse herausfinden
+    private fun getLocalIpAddress(): String? {
+        try {
+            val interfaces = NetworkInterface.getNetworkInterfaces()
+            for (intf in interfaces) {
+                val addresses = intf.inetAddresses
+                for (addr in addresses) {
+                    if (!addr.isLoopbackAddress && addr is Inet4Address) {
+                        return addr.hostAddress
+                    }
+                }
+            }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
+        return null
     }
 
 }
